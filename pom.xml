@@ -9,8 +9,6 @@
     <groupId>com.felixlm</groupId>
     <artifactId>banking-backend</artifactId>
     <version>1.0.0</version>
-
-    <!-- MUY IMPORTANTE -->
     <packaging>pom</packaging>
 
     <name>banking-backend</name>
@@ -21,6 +19,20 @@
 
     <properties>
         <java.version>21</java.version>
+        <spring.boot.version>3.3.5</spring.boot.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Importar Spring Boot BOM para manejar versiones automáticamente -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
