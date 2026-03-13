@@ -89,14 +89,237 @@ La aplicación estará disponible en `http://localhost:8080`
 ## 📝 API Endpoints
 
 ### Usuarios
-- `POST /api/users` - Crear usuario
-- `GET /api/users` - Listar usuarios
+
+#### `POST /api/users` - Crear usuario
+
+**Request:**
+```json
+{
+  "name": "Juan Pérez",
+  "email": "juan@example.com"
+}
+```
+
+**Response (201 Created):**
+```json
+{
+  "id": "a1b2c3d4-e5f6-47g8-h9i0-j1k2l3m4n5o6",
+  "name": "Juan Pérez",
+  "email": "juan@example.com"
+}
+```
+
+**cURL:**
+```bash
+curl -X POST http://localhost:8080/api/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Juan Pérez",
+    "email": "juan@example.com"
+  }'
+```
+
+---
+
+#### `GET /api/users` - Listar usuarios
+
+**Response (200 OK):**
+```json
+[
+  {
+    "id": "a1b2c3d4-e5f6-47g8-h9i0-j1k2l3m4n5o6",
+    "name": "Juan Pérez",
+    "email": "juan@example.com"
+  },
+  {
+    "id": "b2c3d4e5-f6g7-48h9-i0j1-k2l3m4n5o6p7",
+    "name": "María García",
+    "email": "maria@example.com"
+  }
+]
+```
+
+**cURL:**
+```bash
+curl -X GET http://localhost:8080/api/users \
+  -H "Content-Type: application/json"
+```
+
+---
 
 ### Cuentas
-- `POST /api/accounts` - Crear cuenta
-- `POST /api/accounts/{accountId}/deposit` - Depósito
-- `POST /api/accounts/{accountId}/withdraw` - Retiro
-- `GET /api/accounts/{accountId}/transactions` - Ver transacciones
+
+#### `POST /api/accounts` - Crear cuenta
+
+**Request:**
+```json
+{
+  "userId": "a1b2c3d4-e5f6-47g8-h9i0-j1k2l3m4n5o6",
+  "type": "CHECKING"
+}
+```
+
+**Tipos de cuenta disponibles:** `CHECKING`, `SAVINGS`
+
+**Response (201 Created):**
+```json
+{
+  "id": "c3d4e5f6-g7h8-49i0-j1k2-l3m4n5o6p7q8",
+  "userId": "a1b2c3d4-e5f6-47g8-h9i0-j1k2l3m4n5o6",
+  "type": "CHECKING",
+  "balance": 0.00
+}
+```
+
+**cURL:**
+```bash
+curl -X POST http://localhost:8080/api/accounts \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userId": "a1b2c3d4-e5f6-47g8-h9i0-j1k2l3m4n5o6",
+    "type": "CHECKING"
+  }'
+```
+
+---
+
+#### `POST /api/accounts/{accountId}/deposit` - Depósito
+
+**Request:**
+```json
+{
+  "amount": 500.50
+}
+```
+
+**Response (200 OK):**
+```json
+{
+  "id": "c3d4e5f6-g7h8-49i0-j1k2-l3m4n5o6p7q8",
+  "userId": "a1b2c3d4-e5f6-47g8-h9i0-j1k2l3m4n5o6",
+  "type": "CHECKING",
+  "balance": 500.50
+}
+```
+
+**cURL:**
+```bash
+curl -X POST http://localhost:8080/api/accounts/c3d4e5f6-g7h8-49i0-j1k2-l3m4n5o6p7q8/deposit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 500.50
+  }'
+```
+
+---
+
+#### `POST /api/accounts/{accountId}/withdraw` - Retiro
+
+**Request:**
+```json
+{
+  "amount": 100.00
+}
+```
+
+**Response (200 OK):**
+```json
+{
+  "id": "c3d4e5f6-g7h8-49i0-j1k2-l3m4n5o6p7q8",
+  "userId": "a1b2c3d4-e5f6-47g8-h9i0-j1k2l3m4n5o6",
+  "type": "CHECKING",
+  "balance": 400.50
+}
+```
+
+**cURL:**
+```bash
+curl -X POST http://localhost:8080/api/accounts/c3d4e5f6-g7h8-49i0-j1k2-l3m4n5o6p7q8/withdraw \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 100.00
+  }'
+```
+
+---
+
+#### `GET /api/accounts/{accountId}/transactions` - Ver transacciones
+
+**Response (200 OK):**
+```json
+[
+  {
+    "id": "d4e5f6g7-h8i9-40j1-k2l3-m4n5o6p7q8r9",
+    "accountId": "c3d4e5f6-g7h8-49i0-j1k2-l3m4n5o6p7q8",
+    "amount": 500.50,
+    "occurredAt": "2026-03-12T22:30:15.123456",
+    "description": "Deposit"
+  },
+  {
+    "id": "e5f6g7h8-i9j0-41k2-l3m4-n5o6p7q8r9s0",
+    "accountId": "c3d4e5f6-g7h8-49i0-j1k2-l3m4n5o6p7q8",
+    "amount": 100.00,
+    "occurredAt": "2026-03-12T22:35:42.654321",
+    "description": "Withdrawal"
+  }
+]
+```
+
+**cURL:**
+```bash
+curl -X GET http://localhost:8080/api/accounts/c3d4e5f6-g7h8-49i0-j1k2-l3m4n5o6p7q8/transactions \
+  -H "Content-Type: application/json"
+```
+
+---
+
+### Códigos de Respuesta
+
+| Código | Descripción |
+|--------|-------------|
+| **200** | Éxito (GET) |
+| **201** | Recurso creado (POST) |
+| **400** | Solicitud inválida (validación fallida) |
+| **404** | Recurso no encontrado |
+| **500** | Error interno del servidor |
+
+### Ejemplos de Errores
+
+**Email duplicado (400 Bad Request):**
+```json
+{
+  "error": "Email already registered",
+  "status": 400
+}
+```
+
+**Fondos insuficientes (400 Bad Request):**
+```json
+{
+  "error": "Insufficient funds",
+  "status": 400
+}
+```
+
+**Cuenta no encontrada (404 Not Found):**
+```json
+{
+  "error": "Account not found",
+  "status": 404
+}
+```
+
+---
+
+### Validaciones
+
+| Campo | Validación |
+|-------|-----------|
+| **name** | Requerido, no vacío |
+| **email** | Requerido, formato email válido, único |
+| **userId** | Requerido, UUID válido |
+| **type** | Requerido, valores: CHECKING o SAVINGS |
+| **amount** | Requerido, debe ser > 0.01 |
 
 ## 🧪 Testing
 
