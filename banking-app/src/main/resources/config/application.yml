@@ -1,0 +1,40 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: banking-app
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/banking
+    username: bank_user
+    password: bank_pass
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 20000
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.format_sql: true
+      hibernate.jdbc.batch_size: 20
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+  
+  jackson:
+    default-property-inclusion: non_null
+
+logging:
+  level:
+    root: WARN
+    com.felixlm: DEBUG
+    org.springframework.web: INFO
+    org.springframework.boot.actuate: INFO
+
+
