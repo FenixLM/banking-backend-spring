@@ -14,6 +14,7 @@
     <name>banking-backend</name>
 
     <modules>
+        <module>auth-module</module>
         <module>users-module</module>
         <module>accounts-module</module>
         <module>banking-app</module>

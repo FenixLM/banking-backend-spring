@@ -16,14 +16,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
-    public User createUser(String name, String email) {
-        if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("Email already registered");
-        }
-        User user = User.create(name, email);
-        return userRepository.save(user);
-    }
+    // User creation is handled by AuthenticationService in auth-module
+    // to ensure password encoding and security validation
 
     @Transactional(readOnly = true)
     public List<User> getUsers() {

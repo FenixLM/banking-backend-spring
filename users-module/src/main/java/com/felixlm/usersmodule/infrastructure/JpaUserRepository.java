@@ -5,6 +5,8 @@ import com.felixlm.usersmodule.domain.UserRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class JpaUserRepository implements UserRepository {
@@ -29,8 +31,20 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public Optional<User> findById(UUID id) {
+        return repository.findById(id).map(UserEntity::toDomain);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return repository.findByEmail(email).map(UserEntity::toDomain);
+    }
+
+    @Override
     public boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
     }
 }
+
+
 

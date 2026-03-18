@@ -26,9 +26,16 @@ spring:
       hibernate.jdbc.batch_size: 20
       hibernate.order_inserts: true
       hibernate.order_updates: true
+    repositories:
+      bootstrap-mode: lazy
   
   jackson:
     default-property-inclusion: non_null
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:mySecretKeyForJwtTokenGenerationAndVerificationPurposeOnly123456789}
+    expiration: ${JWT_EXPIRATION:86400000}
 
 logging:
   level:
